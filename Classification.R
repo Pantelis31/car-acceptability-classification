@@ -31,33 +31,58 @@ data <- data.frame(raw[, 1:6], eval = ifelse(raw[, 7] == "unacc", "Negative",
                                                "Positive"))
 
 #Exploratory analysis
-p1 <- ggplot(data, aes(V3, ..count..)) + geom_bar(aes(fill = eval), position = "dodge") + xlab("Number of doors") + ylab("Count") +
+p1 <- ggplot(data, aes(V3, ..count..)) + 
+  geom_bar(aes(fill = eval), position = "dodge") +
+  xlab("Number of doors") +
+  ylab("Count") +
   labs(title = "Number of doors")+
-  scale_fill_manual("Acceptability", values = c("Negative" = "orange", "Positive" = "darkblue"))
+  scale_fill_manual("Acceptability",
+                    values = c("Negative" = "orange", "Positive" = "darkblue"))
 
-p2 <- ggplot(data, aes(V1, ..count..)) + geom_bar(aes(fill = eval), position = "dodge") + xlab("Buying price") + ylab("Count") +
+p2 <- ggplot(data, aes(V1, ..count..)) + 
+  geom_bar(aes(fill = eval), position = "dodge") +
+  xlab("Buying price") +
+  ylab("Count") +
   labs(title = "Buying price")+
-  scale_fill_manual("Acceptability", values = c("Negative" = "orange", "Positive" = "darkblue"))
+  scale_fill_manual("Acceptability",
+                    values = c("Negative" = "orange", "Positive" = "darkblue"))
 
-p3 <- ggplot(data, aes(V2, ..count..)) + geom_bar(aes(fill = eval), position = "dodge") + xlab("Maintainance price") + ylab("Count") +
+p3 <- ggplot(data, aes(V2, ..count..)) + 
+  geom_bar(aes(fill = eval), position = "dodge") + 
+  xlab("Maintainance price") + 
+  ylab("Count") +
   labs(title = "Maintainance price")+
-  scale_fill_manual("Acceptability", values = c("Negative" = "orange", "Positive" = "darkblue"))
+  scale_fill_manual("Acceptability", 
+                    values = c("Negative" = "orange", "Positive" = "darkblue"))
 
-p4 <- ggplot(data, aes(V4, ..count..)) + geom_bar(aes(fill = eval), position = "dodge") + xlab("Person capacity") + ylab("Count") +
+p4 <- ggplot(data, aes(V4, ..count..)) + 
+  geom_bar(aes(fill = eval), position = "dodge") + 
+  xlab("Person capacity") + 
+  ylab("Count") +
   labs(title = "Person capacity")+
-  scale_fill_manual("Acceptability", values = c("Negative" = "orange", "Positive" = "darkblue"))
+  scale_fill_manual("Acceptability", 
+                    values = c("Negative" = "orange", "Positive" = "darkblue"))
 
-p5 <- ggplot(data, aes(V5, ..count..)) + geom_bar(aes(fill = eval), position = "dodge") + xlab("Luggage boot size") + ylab("Count") +
+p5 <- ggplot(data, aes(V5, ..count..)) + 
+  geom_bar(aes(fill = eval), position = "dodge") + 
+  xlab("Luggage boot size") + 
+  ylab("Count") +
   labs(title = "Luggage boot size")+
-  scale_fill_manual("Acceptability", values = c("Negative" = "orange", "Positive" = "darkblue"))
+  scale_fill_manual("Acceptability", 
+                    values = c("Negative" = "orange", "Positive" = "darkblue"))
 
-p6 <- ggplot(data, aes(V6, ..count..)) + geom_bar(aes(fill = eval), position = "dodge") + xlab("Safety") + ylab("Count") +
+p6 <- ggplot(data, aes(V6, ..count..)) + 
+  geom_bar(aes(fill = eval), position = "dodge") + 
+  xlab("Safety") + 
+  ylab("Count") +
   labs(title = "Safety")+
-  scale_fill_manual("Acceptability", values = c("Negative" = "orange", "Positive" = "darkblue"))
+  scale_fill_manual("Acceptability", 
+                    values = c("Negative" = "orange", "Positive" = "darkblue"))
 
 grid.arrange(p1,p2,p3,p4,p5,p6,nrow = 3)
 
-colnames(data) <- c("Buying_price", "Maint_price", "Num_doors", "Person_capacity", "Lugg_boot_size", "Safety", "Eval")
+colnames(data) <- c("Buying_price", "Maint_price", "Num_doors",
+                    "Person_capacity", "Lugg_boot_size", "Safety", "Eval")
 
 #Change variables to factors
 data$Eval <- as.factor(data$Eval)
@@ -69,7 +94,9 @@ data$Lugg_boot_size <- as.factor(data$Lugg_boot_size)
 data$Safety <- as.factor(data$Safety)
 
 #We can visualize the classes on the training and test set
-p7 <- ggplot(data, aes(Eval, col = Eval , fill = Eval)) + geom_bar() + labs(title="Level Count",y="Count", x="Levels")+
+p7 <- ggplot(data, aes(Eval, col = Eval , fill = Eval)) + 
+  geom_bar() + 
+  labs(title="Level Count",y="Count", x="Levels")+
   ggtitle("Class numbers")
 p7
 
@@ -83,42 +110,70 @@ test_set <- data[-train_index, ]
 
 #USE SMOTE FOR BALANCING THE CLASSES
 #Class numbers in the train set before balancing
-p8 <- ggplot(train_set, aes(Eval, col = Eval , fill = Eval)) + geom_bar() + labs(title="Level Count",y="Count", x="Levels")+
+p8 <- ggplot(train_set, aes(Eval, col = Eval , fill = Eval)) + 
+  geom_bar() + 
+  labs(title="Level Count",y="Count", x="Levels")+
   ggtitle("Class numbers in train set")
 p8
 
-balanced_train <- SMOTE(Eval~., data = train_set, perc.over = 1000, k = 4, perc.under = 120)
+balanced_train <- SMOTE(Eval~., data = train_set,
+                        perc.over = 1000, k = 4, perc.under = 120)
 
 #Class numbers after balancing
-p9 <- ggplot(balanced_train, aes(Eval, col = Eval , fill = Eval)) + geom_bar() + labs(title="Level Count",y="Count", x="Levels")+
+p9 <- ggplot(balanced_train, aes(Eval, col = Eval , fill = Eval)) + 
+  geom_bar() + 
+  labs(title="Level Count",y="Count", x="Levels")+
   ggtitle("Class numbers in train set (SMOTE)")
 p9
 
 
 #Histograms after balancing
-p10 <- ggplot(balanced_train, aes(Num_doors, ..count..)) + geom_bar(aes(fill = Eval), position = "dodge") + xlab("Number of doors") + ylab("Count") +
+p10 <- ggplot(balanced_train, aes(Num_doors, ..count..)) + 
+  geom_bar(aes(fill = Eval), position = "dodge") + 
+  xlab("Number of doors") + 
+  ylab("Count") +
   labs(title = "Number of doors")+
-  scale_fill_manual("Acceptability", values = c("Negative" = "orange", "Positive" = "darkblue"))
+  scale_fill_manual("Acceptability", 
+                    values = c("Negative" = "orange", "Positive" = "darkblue"))
 
-p11 <- ggplot(balanced_train, aes(Buying_price, ..count..)) + geom_bar(aes(fill = Eval), position = "dodge") + xlab("Buying price") + ylab("Count") +
+p11 <- ggplot(balanced_train, aes(Buying_price, ..count..)) + 
+  geom_bar(aes(fill = Eval), position = "dodge") + 
+  xlab("Buying price") + 
+  ylab("Count") +
   labs(title = "Buying price")+
-  scale_fill_manual("Acceptability", values = c("Negative" = "orange", "Positive" = "darkblue"))
+  scale_fill_manual("Acceptability", 
+                    values = c("Negative" = "orange", "Positive" = "darkblue"))
 
-p12 <- ggplot(balanced_train, aes(Maint_price, ..count..)) + geom_bar(aes(fill = Eval), position = "dodge") + xlab("Maintainance price") + ylab("Count") +
+p12 <- ggplot(balanced_train, aes(Maint_price, ..count..)) + 
+  geom_bar(aes(fill = Eval), position = "dodge") + 
+  xlab("Maintainance price") + 
+  ylab("Count") +
   labs(title = "Maintainance price")+
-  scale_fill_manual("Acceptability", values = c("Negative" = "orange", "Positive" = "darkblue"))
+  scale_fill_manual("Acceptability", 
+                    values = c("Negative" = "orange", "Positive" = "darkblue"))
 
-p13 <- ggplot(balanced_train, aes(Person_capacity, ..count..)) + geom_bar(aes(fill = Eval), position = "dodge") + xlab("Person capacity") + ylab("Count") +
+p13 <- ggplot(balanced_train, aes(Person_capacity, ..count..)) + 
+  geom_bar(aes(fill = Eval), position = "dodge") + 
+  xlab("Person capacity") + 
+  ylab("Count") +
   labs(title = "Person capacity")+
-  scale_fill_manual("Acceptability", values = c("Negative" = "orange", "Positive" = "darkblue"))
+  scale_fill_manual("Acceptability", 
+                    values = c("Negative" = "orange", "Positive" = "darkblue"))
 
-p14 <- ggplot(balanced_train, aes(Lugg_boot_size, ..count..)) + geom_bar(aes(fill = Eval), position = "dodge") + xlab("Luggage boot size") + ylab("Count") +
+p14 <- ggplot(balanced_train, aes(Lugg_boot_size, ..count..)) + 
+  geom_bar(aes(fill = Eval), position = "dodge") + 
+  xlab("Luggage boot size") + ylab("Count") +
   labs(title = "Luggage boot size")+
-  scale_fill_manual("Acceptability", values = c("Negative" = "orange", "Positive" = "darkblue"))
+  scale_fill_manual("Acceptability", 
+                    values = c("Negative" = "orange", "Positive" = "darkblue"))
 
-p15 <- ggplot(balanced_train, aes(Safety, ..count..)) + geom_bar(aes(fill = Eval), position = "dodge") + xlab("Safety") + ylab("Count") +
+p15 <- ggplot(balanced_train, aes(Safety, ..count..)) + 
+  geom_bar(aes(fill = Eval), position = "dodge") + 
+  xlab("Safety") + 
+  ylab("Count") +
   labs(title = "Safety")+
-  scale_fill_manual("Acceptability", values = c("Negative" = "orange", "Positive" = "darkblue"))
+  scale_fill_manual("Acceptability", 
+                    values = c("Negative" = "orange", "Positive" = "darkblue"))
 
 grid.arrange(p10,p11,p12,p13,p14,p15,nrow = 3)
 
